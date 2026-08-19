@@ -8,19 +8,21 @@ from flask import Flask
 from threading import Thread
 
 # --------------------------------------------------
-# [Flask 웹 서버 설정 (렌더 24시간 유지용)]
+# [Flask 웹 서버 설정 (렌더 24시간 유지용 - 수정본)]
 # --------------------------------------------------
-app = Flask('')
+app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "I am alive! Discord bot is running."
+    return "I am alive!", 200
 
 def run_web_server():
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
 
 def keep_alive():
     t = Thread(target=run_web_server)
+    t.daemon = True
     t.start()
 
 # --------------------------------------------------
